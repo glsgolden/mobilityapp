@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span>OLT Records</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-olt-record" [routerLink]="['/olt-record/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Upload New Record
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="oLTRecords">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="olt"><span>Olt</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="region"><span>Region</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="city"><span>City</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="oltType"><span>Olt Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fpp"><span>Fpp</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="odf"><span>Odf</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let oLTRecord of oLTRecords ;trackBy: trackId">
+                <td><a [routerLink]="['/olt-record', oLTRecord.id, 'view' ]">{{oLTRecord.id}}</a></td>
+                <td>{{oLTRecord.olt}}</td>
+                <td>{{oLTRecord.region}}</td>
+                <td>{{oLTRecord.city}}</td>
+                <td>{{oLTRecord.oltType}}</td>
+                <td>{{oLTRecord.status}}</td>
+                <td>{{oLTRecord.fpp}}</td>
+                <td>{{oLTRecord.odf}}</td>
+                <td>{{oLTRecord.remarks}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/olt-record', oLTRecord.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/olt-record', oLTRecord.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'olt-record/'+ oLTRecord.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-olt-record-heading">Create or edit a OLT Record</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!oLTRecord.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="oLTRecord.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_olt">Olt</label>
+                    <input type="text" class="form-control" name="olt" id="field_olt"
+                        [(ngModel)]="oLTRecord.olt" required/>
+                    <div [hidden]="!(editForm.controls.olt?.dirty && editForm.controls.olt?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.olt?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_region">Region</label>
+                    <input type="text" class="form-control" name="region" id="field_region"
+                        [(ngModel)]="oLTRecord.region" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_city">City</label>
+                    <input type="text" class="form-control" name="city" id="field_city"
+                        [(ngModel)]="oLTRecord.city" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_oltType">Olt Type</label>
+                    <input type="text" class="form-control" name="oltType" id="field_oltType"
+                        [(ngModel)]="oLTRecord.oltType" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <input type="text" class="form-control" name="status" id="field_status"
+                        [(ngModel)]="oLTRecord.status" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fpp">Fpp</label>
+                    <input type="text" class="form-control" name="fpp" id="field_fpp"
+                        [(ngModel)]="oLTRecord.fpp" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_odf">Odf</label>
+                    <input type="text" class="form-control" name="odf" id="field_odf"
+                        [(ngModel)]="oLTRecord.odf" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_remarks">Remarks</label>
+                    <input type="text" class="form-control" name="remarks" id="field_remarks"
+                        [(ngModel)]="oLTRecord.remarks" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

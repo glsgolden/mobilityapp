@@ -1,0 +1,55 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="oLTRecord">
+            <h2><span>OLT Record</span> {{oLTRecord.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Olt</span></dt>
+                <dd>
+                    <span>{{oLTRecord.olt}}</span>
+                </dd>
+                <dt><span>Region</span></dt>
+                <dd>
+                    <span>{{oLTRecord.region}}</span>
+                </dd>
+                <dt><span>City</span></dt>
+                <dd>
+                    <span>{{oLTRecord.city}}</span>
+                </dd>
+                <dt><span>Olt Type</span></dt>
+                <dd>
+                    <span>{{oLTRecord.oltType}}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{oLTRecord.status}}</span>
+                </dd>
+                <dt><span>Fpp</span></dt>
+                <dd>
+                    <span>{{oLTRecord.fpp}}</span>
+                </dd>
+                <dt><span>Odf</span></dt>
+                <dd>
+                    <span>{{oLTRecord.odf}}</span>
+                </dd>
+                <dt><span>Remarks</span></dt>
+                <dd>
+                    <span>{{oLTRecord.remarks}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/olt-record', oLTRecord.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
