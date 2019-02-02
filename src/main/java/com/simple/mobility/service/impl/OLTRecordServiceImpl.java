@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.util.List;
 import java.util.Optional;
 /**
  * Service Implementation for managing OLTRecord.
@@ -37,6 +37,20 @@ public class OLTRecordServiceImpl implements OLTRecordService {
     @Override
     public OLTRecord save(OLTRecord oLTRecord) {
         log.debug("Request to save OLTRecord : {}", oLTRecord);        return oLTRecordRepository.save(oLTRecord);
+    }
+    
+    /**
+     * Save a oLTRecord.
+     *
+     * @param oLTRecord the entity to save
+     * @return the persisted entity
+     */
+    @Override
+    public List<OLTRecord> saveAll(List<OLTRecord> records) {
+        log.debug("Request to save number of OLTRecord : {}", records.size());
+        oLTRecordRepository.deleteAll();
+        
+        return oLTRecordRepository.saveAll(records);
     }
 
     /**

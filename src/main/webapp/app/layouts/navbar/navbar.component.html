@@ -4,7 +4,6 @@
             <fa-icon [icon]="'bars'"></fa-icon>
         </a>
         <a class="navbar-brand logo float-left" routerLink="/" (click)="collapseNavbar()">
-            <span class="logo-img"></span>
             <span class="navbar-title">Mobilityapp</span> <span class="navbar-version">{{version}}</span>
         </a>
     </div>
@@ -32,9 +31,10 @@
                     <li>
                         <a class="dropdown-item" routerLink="olt-record" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon [icon]="'asterisk'" [fixedWidth]="true"></fa-icon>
-                            <span>Olt Record</span>
+                            <span>Mobily Record</span>
                         </a>
                     </li>
+                    <li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>
@@ -52,7 +52,7 @@
                             <span>User management</span>
                         </a>
                     </li>
-                    <li>
+<!--                     <li>
                         <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
                             <fa-icon [icon]="'tachometer-alt'" [fixedWidth]="true"></fa-icon>
                             <span>Metrics</span>
@@ -87,14 +87,14 @@
                             <fa-icon [icon]="'book'" [fixedWidth]="true"></fa-icon>
                             <span>API</span>
                         </a>
-                    </li>
+                    </li>-->
                     <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
-                    <li *ngIf="!inProduction">
+                    <!--<li *ngIf="!inProduction">
                         <a class="dropdown-item" href='./h2-console' target="_tab" (click)="collapseNavbar()">
                             <fa-icon [icon]="'hdd'" [fixedWidth]="true"></fa-icon>
                             <span>Database</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
             <li ngbDropdown class="nav-item dropdown pointer" placement="bottom-right" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">

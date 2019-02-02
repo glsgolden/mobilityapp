@@ -2,11 +2,15 @@ package com.simple.mobility.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.simple.mobility.domain.OLTRecord;
+import com.simple.mobility.excel.ExcelReader;
 import com.simple.mobility.service.OLTRecordService;
 import com.simple.mobility.web.rest.errors.BadRequestAlertException;
 import com.simple.mobility.web.rest.util.HeaderUtil;
 import com.simple.mobility.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,11 +19,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.Multipart;
 import javax.validation.Valid;
+
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,5 +134,47 @@ public class OLTRecordResource {
         log.debug("REST request to delete OLTRecord : {}", id);
         oLTRecordService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+
+
+    @PostMapping("/olt-records/file")
+    @Timed
+    public ResponseEntity<List<OLTRecord>> uploadFile(@RequestParam("file") MultipartFile multiPartFile) {
+    	log.debug("in file upload process !!!!");
+    	
+    	try {
+    		String originalFileName = multiPartFile.getOriginalFilename();
+        	originalFileName = originalFileName.substring(0, originalFileName.lastIndexOf('.'))
+        			+"_"+System.currentTimeMillis() 
+        			+ originalFileName.substring(originalFileName.lastIndexOf('.'), originalFileName.length());
+        	
+        	File file = new File(System.getProperty("java.io.tmpdir") + "\\" + originalFileName);
+        	
+        	if(file.exists()) {
+        		Files.delete(Paths.get(file.getPath()));
+        	}
+        	
+        	multiPartFile.transferTo(file);
+        	
+        	List<OLTRecord> parseRecords= ExcelReader.parseExcelFile(file);
+        	
+        	List<OLTRecord> records =  this.oLTRecordService.saveAll(parseRecords);
+        	
+        	return ResponseEntity.ok()
+        			.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, "OLTRECORDS"))
+        			.body(records);
+        	
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+    	
+    	
+    	return ResponseEntity.ok()
+    			.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, "OLTRECORDS"))
+    			.body(null);
+    	
+    	
+    
     }
 }

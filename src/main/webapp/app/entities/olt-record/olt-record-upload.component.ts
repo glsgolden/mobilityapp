@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { IOLTRecord } from 'app/shared/model/olt-record.model';
 import { OLTRecordService } from './olt-record.service';
@@ -13,6 +13,8 @@ import { OLTRecordService } from './olt-record.service';
 export class OLTRecordUploadComponent implements OnInit {
     private _oLTRecord: IOLTRecord;
     isSaving: boolean;
+    currentFileUpload: File;
+    selectedFiles: FileList;
 
     constructor(private oLTRecordService: OLTRecordService, private activatedRoute: ActivatedRoute) {}
 
@@ -27,17 +29,20 @@ export class OLTRecordUploadComponent implements OnInit {
         window.history.back();
     }
 
-    save() {
+    upload() {
         this.isSaving = true;
-        if (this.oLTRecord.id !== undefined) {
-            this.subscribeToSaveResponse(this.oLTRecordService.update(this.oLTRecord));
-        } else {
-            this.subscribeToSaveResponse(this.oLTRecordService.create(this.oLTRecord));
-        }
+        this.currentFileUpload = this.selectedFiles.item(0);
+
+        this.subscribeToSaveResponse(this.oLTRecordService.uploadFile(this.currentFileUpload));
+        /* this.oLTRecordService.uploadFile(this.currentFileUpload).subscribe(event => {
+            if (event instanceof HttpResponse) {
+                console.log('File in completely uploaded');
+            }
+        }); */
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IOLTRecord>>) {
-        result.subscribe((res: HttpResponse<IOLTRecord>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
+    private subscribeToSaveResponse(result: Observable<HttpResponse<IOLTRecord[]>>) {
+        result.subscribe((res: HttpResponse<IOLTRecord[]>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
     private onSaveSuccess() {
@@ -54,5 +59,9 @@ export class OLTRecordUploadComponent implements OnInit {
 
     set oLTRecord(oLTRecord: IOLTRecord) {
         this._oLTRecord = oLTRecord;
+    }
+
+    onFileChange(event) {
+        this.selectedFiles = event.target.files;
     }
 }

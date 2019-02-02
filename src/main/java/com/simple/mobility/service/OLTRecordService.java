@@ -5,6 +5,7 @@ import com.simple.mobility.domain.OLTRecord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,6 +20,14 @@ public interface OLTRecordService {
      * @return the persisted entity
      */
     OLTRecord save(OLTRecord oLTRecord);
+    
+    /**
+     * Save a oLTRecords.
+     *
+     * @param listof oLTRecord entity to save
+     * @return the list of persisted entity
+     */
+    List<OLTRecord> saveAll(List<OLTRecord> records);
 
     /**
      * Get all the oLTRecords.

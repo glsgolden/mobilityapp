@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
@@ -34,5 +34,19 @@ export class OLTRecordService {
 
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    uploadFile(file: File): Observable<EntityArrayResponseType> {
+        const formdata: FormData = new FormData();
+        formdata.append('file', file);
+
+        return this.http.post<IOLTRecord[]>(`${this.resourceUrl}/file`, formdata, { observe: 'response'});
+        /*
+        const req = new HttpRequest('POST', `${this.resourceUrl}/file`, formdata, {
+            reportProgress: true,
+            responseType: 'text'
+        });
+        return this.http.request(req);
+        */
     }
 }

@@ -1,10 +1,10 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-            <h2 id="jhi-olt-record-heading">Create or edit a OLT Record</h2>
+        <form name="editForm" role="form" novalidate (ngSubmit)="upload()" #editForm="ngForm">
+            <h2 id="jhi-olt-record-heading">Upload OLT records</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!oLTRecord.id">
+                <div class="form-group">
                     <label for="id">File :</label>
                     <input type="file" class="form-control" name="avatar" id="field_avatar" (change)="onFileChange($event)" />
                 </div>

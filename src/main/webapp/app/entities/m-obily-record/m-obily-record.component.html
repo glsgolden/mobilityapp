@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span>M Obily Records</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-m-obily-record" [routerLink]="['/m-obily-record/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new M Obily Record
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="mObilyRecords">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="olt"><span>Olt</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="region"><span>Region</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="city"><span>City</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="oltType"><span>Olt Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="status"><span>Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fpp"><span>Fpp</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="odf"><span>Odf</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="remarks"><span>Remarks</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let mObilyRecord of mObilyRecords ;trackBy: trackId">
+                <td><a [routerLink]="['/m-obily-record', mObilyRecord.id, 'view' ]">{{mObilyRecord.id}}</a></td>
+                <td>{{mObilyRecord.olt}}</td>
+                <td>{{mObilyRecord.region}}</td>
+                <td>{{mObilyRecord.city}}</td>
+                <td>{{mObilyRecord.oltType}}</td>
+                <td>{{mObilyRecord.status}}</td>
+                <td>{{mObilyRecord.fpp}}</td>
+                <td>{{mObilyRecord.odf}}</td>
+                <td>{{mObilyRecord.remarks}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/m-obily-record', mObilyRecord.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/m-obily-record', mObilyRecord.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'm-obily-record/'+ mObilyRecord.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

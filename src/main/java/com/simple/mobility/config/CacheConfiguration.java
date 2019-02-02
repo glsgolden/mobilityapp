@@ -39,6 +39,7 @@ public class CacheConfiguration {
             cm.createCache(com.simple.mobility.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.simple.mobility.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.simple.mobility.domain.OLTRecord.class.getName(), jcacheConfiguration);
+            cm.createCache(com.simple.mobility.domain.MObilyRecord.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
